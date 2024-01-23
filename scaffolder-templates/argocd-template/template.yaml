@@ -8,8 +8,8 @@ metadata:
     - recommended
     - argocd
 spec:
-  owner: janus-authors
-  system: janus-idp
+  owner: agosteeno
+  system: agosteenoATextrared
   type: service
 
   parameters:
@@ -95,7 +95,7 @@ spec:
         namespace:
           title: Namespace
           type: string
-          default: system:janus-idp
+          default: system:agosteenoATextrared
           description: The namespace for deploying resources
         hostUrl:
           title: Host URL

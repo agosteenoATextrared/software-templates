@@ -10,8 +10,8 @@ metadata:
     - java
     - maven
 spec:
-  owner: janus-authors
-  system: janus-idp
+  owner: agosteeno
+  system: agosteenoATextrared
   type: service
 
   parameters:
@@ -74,8 +74,8 @@ spec:
         groupId:
           title: Group ID
           type: string
-          default: io.janus
-          description: Maven Group ID eg (io.janus)
+          default: it.extrared
+          description: Maven Group ID eg (it.extrared)
         artifactId:
           title: Artifact ID
           type: string
@@ -84,7 +84,7 @@ spec:
         javaPackageName:
           title: Java Package Namespace
           type: string
-          default: io/janus/spring-boot-app
+          default: it/extrared/spring-boot-app
           description: Name for the Java Package (ensure to use the / character as this is used for folder structure) should match Group ID and Artifact ID
     - title: Provide information about the CI method
       required:

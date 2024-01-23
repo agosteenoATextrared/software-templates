@@ -9,8 +9,8 @@ metadata:
     - python
     - flask
 spec:
-  owner: janus-authors
-  system: janus-idp
+  owner: agosteeno
+  system: agosteenoATextrared
   type: service
 
   parameters:
