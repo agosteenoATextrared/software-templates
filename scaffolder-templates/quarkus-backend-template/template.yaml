@@ -209,8 +209,8 @@ spec:
   # Give publish:github and publish:gitlab the same id so
   # that we don't need if statements in the register step
   - id: publish
-    if: ${{ parameters.sourceControl == 'github.com' }}
-    name: Publishing to the Source Code Repository
+    if: ${{ parameters.sourceControl }} == 'github.com'
+    name: Publishing to the GitHub Source Code Repository
     action: publish:github
     input:
       allowedHosts: ['github.com']
@@ -220,7 +220,7 @@ spec:
 
   - id: publish
     if: ${{ parameters.sourceControl == 'gitlab.com' }}
-    name: Publishing to the Source Code Repository
+    name: Publishing to the GitLab Source Code Repository
     action: publish:gitlab
     input:
       allowedHosts: ['gitlab.com']
