@@ -116,9 +116,11 @@ spec:
                   default: quay.io
                   enum:
                     - quay.io
+                    - quay.extrasys.it
                     - image-registry.openshift-image-registry.svc:5000
                   enumNames:
                     - Quay
+                    - Quay Extrasys
                     - Internal OpenShift Registry
                 imageUrl:
                   title: Image URL
