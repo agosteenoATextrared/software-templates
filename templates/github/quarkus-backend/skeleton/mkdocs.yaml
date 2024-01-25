@@ -8,4 +8,4 @@ plugins:
 
 # Note for content editors, edit only the section below
 nav:
-  - ${{ values.repoName }} Documentation: README.md
+  - ${{ values.repoName }} Documentation: index.md
