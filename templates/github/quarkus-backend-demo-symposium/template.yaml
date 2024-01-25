@@ -1,0 +1,155 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: quarkus-backend-template-github
+  title: Create a Quarkus Backend application in GitHub 
+  description: Create a starter Quarkus Backend application in GitHub
+  tags:
+    - quarkus
+    - java
+    - maven
+spec:
+  owner: agosteeno-authors
+  system: ExtraRed-IDP
+  type: service
+
+  parameters:
+    - title: Provide information about the new component
+      required:
+        - orgName
+        - repoName
+        - owner
+        - system
+        - port
+      properties:
+        orgName:
+          title: Organization Name
+          type: string
+        repoName:
+          title: Repository Name
+          type: string
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this component is for
+        owner:
+          title: Owner
+          type: string
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind:
+                - Group
+                - User
+        system:
+          title: System
+          type: string
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind:
+                - System
+        port:
+          title: Port
+          type: number
+          default: 8080
+          description: Override the port exposed for the application
+    - title: Provide information about the Java metadata
+      required:
+        - groupId
+        - artifactId
+        - version
+        - javaPackageName
+      properties:
+        groupId:
+          title: Group ID
+          type: string
+          default: it.extrared
+          description: Maven Group ID eg (it.extrared)
+        artifactId:
+          title: Artifact ID
+          type: string
+          default: quarkusapp
+          description: Maven Artifact ID
+        version: 
+          title: Version
+          type: string
+          default: 1.0.0-SNAPSHOT
+          description: Maven Artifact Version
+        javaPackageName:
+          title: Java Package Namespace
+          type: string
+          default: it.extrared.quarkusapp
+          description: Name for the Java Package (e.g. it.extrared.quarkusapp) should match Group ID and Artifact ID
+ 
+  steps:
+    - id: template
+      name: Generating the Source Code Component
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          orgName: ${{ parameters.orgName }}
+          repoName: ${{ parameters.repoName }}
+          owner: ${{ parameters.owner }}
+          system: ${{ parameters.system }}
+          applicationType: api
+          description: ${{ parameters.description }}
+          namespace: ${{ parameters.namespace }}
+          imageUrl: ${{ parameters.imageUrl }}
+          imageBuilder: s2i-java
+          imageRepository: ${{ parameters.imageRepository }}
+          port: ${{ parameters.port }}
+          ci: ${{ parameters.ci }}
+          groupId: ${{ parameters.groupId }}
+          artifactId: ${{ parameters.artifactId }}
+          version: ${{ parameters.version }}
+          javaPackageName: ${{ parameters.javaPackageName}}
+          sourceControl: github.com
+
+    - id: catalogTemplate
+      name: Generating the Catalog Info Component
+      action: fetch:template
+      input:
+        url: ../../../skeletons/catalog-info/
+        values:
+          orgName: ${{ parameters.orgName }}
+          repoName: ${{ parameters.repoName }}
+          owner: ${{ parameters.owner }}
+          system: ${{ parameters.system }}
+          applicationType: api
+          description: ${{ parameters.description }}
+          namespace: ${{ parameters.namespace }}
+          imageUrl: ${{ parameters.imageUrl }}
+          imageBuilder: s2i-java
+          imageRepository: ${{ parameters.imageRepository }}
+          port: ${{ parameters.port }}
+          ci: ${{ parameters.ci }}
+          groupId: ${{ parameters.groupId }}
+          artifactId: ${{ parameters.artifactId }}
+          javaPackageName: ${{ parameters.javaPackageName}}
+          sourceControl: github.com
+
+    - id: publish
+      name: Publishing to the Source Code Repository
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: ${{ parameters.description }}
+        repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.repoName }}
+        defaultBranch: main
+
+    - id: register
+      name: Registering the Catalog Info Component
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+
+  output:
+    links:
+      - title: Open the Source Code Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open the Catalog Info Component
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
