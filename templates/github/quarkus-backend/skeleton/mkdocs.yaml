@@ -1,7 +1,7 @@
 site_name: ${{ values.repoName }}
 site_description: ${{ values.description }}
 repo_url: https://${{ values.sourceControl }}/${{ values.orgName }}/${{ values.repoName }}
-edit_uri: edit/main/docs
+edit_uri: tree/main/docs
 
 plugins:
   - techdocs-core
