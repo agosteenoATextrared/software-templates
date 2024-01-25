@@ -27,7 +27,7 @@ metadata:
     {%- endif %}
     backstage.io/kubernetes-id: ${{ name }}
     backstage.io/techdocs-ref: dir:.
-    {%- if values.sourceControl == "gitlab.com" %}
+    {%- if values.sourceControl == "github.com" %}
     gitlab.com/project-slug: ${{ values.orgName }}/${{ values.repoName }}
     {%- elif values.sourceControl == "github.com" %}
     github.com/project-slug: ${{ values.orgName }}/${{ values.repoName }}
